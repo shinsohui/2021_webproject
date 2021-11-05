@@ -1,0 +1,72 @@
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  box-sizing: border-box;
+}
+
+
+.date_item{
+  background-color: black;
+  display: flex;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* 친구 목록 */
+
+/* .friends{
+  display: inline-block;
+  width: 300px;
+  height: 900px;
+  border: 1px solid black;
+  padding-top: 0px;
+} */
+
+/* 달력 */
+
+.rap {
+  display: inline-block;
+  /* max-width: 1200px; */
+  width: 500px;
+  height: 600px;
+  /* margin: 0; */
+  background-color: white;
+  padding: 1px 1px 1px 1px;
+}
+
+.date_head {
+  margin-bottom: 10px;
+}
+
+.date_head div {
+  background: #f03d3d;
+  color: #fff;
+  text-align: center;
+}
+
+.date_form {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 10px;
+}
+
+.date_form div {
+  padding: 10px 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.dateSel div {
+  font-weight: bold;
+  color: #333;
+  min-height: 120px;
+  padding: 1rem 1.3rem;
+  border-radius: 10px;
+  border: 1px solid #f7f7f7;
+}
+
+.background {
+  background: #f7f7f7;
+}

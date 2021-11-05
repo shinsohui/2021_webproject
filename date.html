@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="navi.css">
+  <script src="calendar.js"></script>
+  <title>달력</title>
+</head>
+
+<body>
+  <form id="form1" runat="server">
+    <div class="wrap">
+      <div class="menubar">
+        <div class="menuLogo">
+          <a href="#">Logo</a>
+        </div>
+        <ul class="menuItem">
+          <li><a href="#">Calendar</a></li>
+
+          <li>
+            <a href="#">Community</a>
+            <ul>
+              <li><a href="#">자유게시판</a></li>
+              <li><a href="#">공유게시판</a></li>
+              <li><a href="#">질문게시판</a></li>
+              <li><a href="#">건의사항</a></li>
+              <li><a href="#">Before & After</a></li>
+            </ul>
+          </li>
+
+          <li>
+            <a href="#">Tip</a>
+            <ul>
+              <li><a href="#">공지사항</a></li>
+              <li><a href="#">팁 & 노하우</a></li>
+            </ul>
+          </li>
+
+          <!-- <li><a href="#">LogOut</a></li> -->
+        </ul>
+
+        <div class="mypage">
+          <a href="#">Logout</a>
+        </div>
+
+        <div class="logout">
+          <a href="#">mypage</a>
+        </div>
+
+      </div>
+    </div>
+  </form>
+
+  <h2 class='date_text' style="text-align: center; padding: 2rem 0">2021년 04월</h2>
+  <div class='date_item'>
+    <div class='first rap' style="border: 1px solid; width: 19%; padding-left:1%"> 친구
+      <br> 문박히
+    </div>
+    <div class='second rap' style="width: 81%; padding-left: 1%;">
+      <div class="grid date_form date_head">
+        <div>일</div>
+        <div>월</div>
+        <div>화</div>
+        <div>수</div>
+        <div>목</div>
+        <div>금</div>
+        <div>토</div>
+      </div>
+      <div class="grid date_form dateSel"></div>
+    </div>
+  </div>
+
+</body>
+
+</html>
