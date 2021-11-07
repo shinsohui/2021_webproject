@@ -1,139 +1,282 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Calendar</title>
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<style type="text/css">
-.cal_top{
-    text-align: center;
-    font-size: 30px;
-}
-.cal{
-    text-align: center;    
-}
-table.calendar{
-    border: 1px solid black;
-    display: inline-table;
-    text-align: left;
-}
-table.calendar td{
-    vertical-align: top;
-    border: 1px solid skyblue;
-    width: 100px;
-}
-</style>
-</head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Calendar</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="navi.css">
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            box-sizing: border-box;
+        }
+
+
+        .largest_box {
+            background-color: #ffe4e1;
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            border-radius: 15px;
+        }
+
+        .cal-day {
+            font-weight: bold;
+            color: #333;
+            min-height: 105px;
+            padding: 1rem 1.3rem;
+            border-radius: 10px;
+            border: 1px solid #f7f7f7;
+        }
+
+        .cal-day:hover {
+            font-weight: bold;
+            background-color: pink;
+            min-height: 105px;
+            padding: 1rem 1.3rem;
+            border-radius: 10px;
+            border: 1px solid #f7f7f7;
+        }
+
+        .rap {
+            display: inline-block;
+            /* max-width: 1200px; */
+            width: 500px;
+            height: 668px;
+            /* margin: 0; */
+            background-color: white;
+            padding: 1px 1px 1px 1px;
+        }
+
+        /* .cal_top {
+            text-align: center;
+            font-size: 30px;
+        } */
+
+        .cal {
+            text-align: center;
+        }
+
+        table.calendar {
+            border: 1px solid black;
+            display: inline-table;
+            text-align: left;
+            background-color: white;
+        }
+
+        table.calendar td {
+            /* vertical-align: top; */
+            border-radius: 10%;
+            background-color: white;
+            border: 1px solid f7f7f7;
+            width: 200px;
+        }
+        .close{
+            float: right;
+            cursor: pointer;
+            background-image: url("images/close.png");
+        }
+
+    </style>
+    </head>
+
 <body>
-    <div class="cal_top">
+    <form id="form1" runat="server">
+        <div class="wrap">
+            <div class="menubar">
+                <div class="menuLogo">
+                    <a href="#">Logo</a>
+                </div>
+                <ul class="menuItem">
+                    <li><a href="#">Calendar</a></li>
+
+                    <li>
+                        <a href="#">Community</a>
+                        <ul>
+                            <li><a href="#">자유게시판</a></li>
+                            <li><a href="#">공유게시판</a></li>
+                            <li><a href="#">질문게시판</a></li>
+                            <li><a href="#">건의사항</a></li>
+                            <li><a href="#">Before & After</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#">Tip</a>
+                        <ul>
+                            <li><a href="#">공지사항</a></li>
+                            <li><a href="#">팁 & 노하우</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- <li><a href="#">LogOut</a></li> -->
+                </ul>
+
+                <div class="mypage">
+                    <a href="#">Logout</a>
+                </div>
+
+                <div class="logout">
+                    <a href="#">mypage</a>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+
+    <h2 class="date_text" style="text-align: center; padding: 2rem 0">
         <a href="#" id="movePrevMonth"><span id="prevMonth" class="cal_tit">&lt;</span></a>
         <span id="cal_top_year"></span>
         <span id="cal_top_month"></span>
         <a href="#" id="moveNextMonth"><span id="nextMonth" class="cal_tit">&gt;</span></a>
-    </div>
-    <div id="cal_tab" class="cal">
-    </div>
- 
-<script type="text/javascript">
-    
-    var today = null;
-    var year = null;
-    var month = null;
-    var firstDay = null;
-    var lastDay = null;
-    var $tdDay = null;
-    var $tdSche = null;
- 
-    $(document).ready(function() {
-        drawCalendar();
-        initDate();
-        drawDays();
-        $("#movePrevMonth").on("click", function(){movePrevMonth();});
-        $("#moveNextMonth").on("click", function(){moveNextMonth();});
-    });
-    
-    //calendar 그리기
-    function drawCalendar(){
-        var setTableHTML = "";
-        setTableHTML+='<table class="calendar">';
-        setTableHTML+='<tr><th>SUN</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr>';
-        for(var i=0;i<6;i++){
-            setTableHTML+='<tr height="100">';
-            for(var j=0;j<7;j++){
-                setTableHTML+='<td style="text-overflow:ellipsis;overflow:hidden;white-space:nowrap">';
-                setTableHTML+='    <div class="cal-day"></div>';
-                setTableHTML+='    <div class="cal-schedule"></div>';
-                setTableHTML+='</td>';
-            }
-            setTableHTML+='</tr>';
-        }
-        setTableHTML+='</table>';
-        $("#cal_tab").html(setTableHTML);
-    }
- 
-    //날짜 초기화
-    function initDate(){
-        $tdDay = $("td div.cal-day")
-        $tdSche = $("td div.cal-schedule")
-        dayCount = 0;
-        today = new Date();
-        year = today.getFullYear();
-        month = today.getMonth()+1;
-        firstDay = new Date(year,month-1,1);
-        lastDay = new Date(year,month,0);
-    }
-    
-    //calendar 날짜표시
-    function drawDays(){
-        $("#cal_top_year").text(year);
-        $("#cal_top_month").text(month);
-        for(var i=firstDay.getDay();i<firstDay.getDay()+lastDay.getDate();i++){
-            $tdDay.eq(i).text(++dayCount);
-        }
-        for(var i=0;i<42;i+=7){
-            $tdDay.eq(i).css("color","red");
-        }
-        for(var i=6;i<42;i+=7){
-            $tdDay.eq(i).css("color","blue");
-        }
-    }
- 
-    //calendar 월 이동
-    function movePrevMonth(){
-        month--;
-        if(month<=0){
-            month=12;
-            year--;
-        }
-        if(month<10){
-            month=String("0"+month);
-        }
-        getNewInfo();
-        }
-    
-    function moveNextMonth(){
-        month++;
-        if(month>12){
-            month=1;
-            year++;
-        }
-        if(month<10){
-            month=String("0"+month);
-        }
-        getNewInfo();
-    }
+    </h2>
 
-    
-    function getNewInfo(){
-        for(var i=0;i<42;i++){
-            $tdDay.eq(i).text("");
+    <div class="largest_box" style="padding:10px; border: 1px solid #ffe4e1">
+
+        <div class='first rap' style="border: 1px solid; width: 19%; padding-left:1%"> 친구
+            <br> 문박히
+        </div>
+
+        <!-- 원래 부모 div-->
+        <div id='cal_tab' class='second rap' style="width: 81%; padding-left: 5px; position: relative;">
+            <!--new 부모-->
+        </div>
+        <div id='divToggle'
+            style="position:absolute; display:none; left: 30%; top:20%; background-color: #E0D5D5; width: 900px; height: 600px;">
+            캘린더 편집
+            <span id='close' onclick="this.parentNode.style.display = 'none';" class ="close")>&times;</span>
+        </div>
+
+
+    </div>
+
+
+
+    <script type="text/javascript">
+        var today = null;
+        var year = null;
+        var month = null;
+        var firstDay = null;
+        var lastDay = null;
+        var $tdDay = null;
+        var $tdSche = null;
+
+        $(document).ready(function () {
+            drawCalendar();
+            initDate();
+            drawDays();
+            $("#movePrevMonth").on("click", function () { movePrevMonth(); });
+            $("#moveNextMonth").on("click", function () { moveNextMonth(); });
+        });
+
+        //calendar 그리기
+        function drawCalendar() {
+            var setTableHTML = "";
+            setTableHTML += '<table id = "table" class="calendar">';
+            setTableHTML += '<tr><th>SUN</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr>';
+            for (var i = 0; i < 6; i++) {
+                //행 6개 만드는 부분
+                setTableHTML += '<tr height="90px">';
+                for (var j = 0; j < 7; j++) {
+                    //열 7개(월 ~ 일)만들면서 날짜 채워나가는 부분 
+                    setTableHTML += '<td style="text-overflow:ellipsis;overflow:hidden;white-space:nowrap;">';
+                    setTableHTML += '    <div class="cal-day" onclick="test()"></div>';
+                    setTableHTML += '    <div class="cal-schedule"></div>';
+                    setTableHTML += '</td>';
+                }
+                setTableHTML += '</tr>';
+            }
+            setTableHTML += '</table>';
+            $("#cal_tab").html(setTableHTML);
         }
-        dayCount=0;
-        firstDay = new Date(year,month-1,1);
-        lastDay = new Date(year,month,0);
-        drawDays();
-    }
-</script>
+
+        //날짜 초기화
+        function initDate() {
+            $tdDay = $("td div.cal-day")
+            $tdSche = $("td div.cal-schedule")
+            dayCount = 0;
+            today = new Date();
+            year = today.getFullYear();
+            month = today.getMonth() + 1;
+            firstDay = new Date(year, month - 1, 1);
+            lastDay = new Date(year, month, 0);
+        }
+
+        //calendar 날짜표시
+        function drawDays() {
+            $("#cal_top_year").text(year);
+            $("#cal_top_month").text(month);
+            for (var i = firstDay.getDay(); i < firstDay.getDay() + lastDay.getDate(); i++) {
+                $tdDay.eq(i).text(++dayCount);
+            }
+            for (var i = 0; i < 42; i += 7) {
+                $tdDay.eq(i).css("color", "red");
+            }
+            for (var i = 6; i < 42; i += 7) {
+                $tdDay.eq(i).css("color", "blue");
+            }
+        }
+
+        //calendar 월 이동
+        function movePrevMonth() {
+            month--;
+            if (month <= 0) {
+                month = 12;
+                year--;
+            }
+            if (month < 10) {
+                month = String("0" + month);
+            }
+            getNewInfo();
+        }
+
+        function moveNextMonth() {
+            month++;
+            if (month > 12) {
+                month = 1;
+                year++;
+            }
+            if (month < 10) {
+                month = String("0" + month);
+            }
+            getNewInfo();
+        }
+
+
+        function getNewInfo() {
+            for (var i = 0; i < 42; i++) {
+                $tdDay.eq(i).text("");
+            }
+            dayCount = 0;
+            firstDay = new Date(year, month - 1, 1);
+            lastDay = new Date(year, month, 0);
+            drawDays();
+        }
+
+        // function test() {
+        //    $(".cal-day").click(function(){alert(1234)});
+        //     // t.rows[1].cells[1].innerHTML = "돼라..";
+        // }
+
+        // var t = document.getElementById("cal-day");
+        // //t.rows[2].cells[2].innerHTML = "테스트";
+        // t.click(function () { alert("클릭완료!"); });
+
+        function test() {
+            // alert("클릭 됐다 !!!!");$(".cal-day").click(function () {
+            $("#divToggle").toggle();
+        };
+
+    </script>
+
+    <!-- <div onclick="test()">클릭해봐</div> -->
+
+
 </body>
+
 </html>
- 
