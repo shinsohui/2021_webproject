@@ -1,0 +1,72 @@
+body {
+  background-color: #E0E0E0;
+}
+
+.templet {
+  background-color: #FFFFFF;
+  width: 500px;
+  height: 550px;
+  border-radius: 125px;
+}
+
+div {
+  margin: 15px;
+  padding: 6px 12px;
+}
+
+.PW, .checkPW {
+  margin: 0px;
+}
+
+h4 {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: 42px;
+  color: #333333;
+  display: flex;
+  justify-content: center;
+}
+
+input[type=text] {
+  text-align:center;
+  width: 212px;
+  height: 40px;
+  background-color: #FFFFFF;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+}
+
+input[type=submit] {
+  width: 78px;
+  height: 40px;
+  background-color: #5e5e5e;
+  border: 1px;
+  border-radius: 10px;
+  font-size: 10px;
+  color: #FFFFFF;
+}
+
+input[name=enter-PW], input[name=check-PW], input[name=phone] {
+  width: 300px;
+  position: relative;
+}
+
+select[name=sex] {
+  width: 300px;
+  height: 42px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  background-color: #FFFFFF;
+  text-align: center;
+  color: #5e5e5e;
+}
+
+button[name=submit] {
+  cursor: pointer;
+  width: 300px;
+  height: 42px;
+  border: none;
+  border-radius: 10px;
+  background-color: #5e5e5e;
+  color: #FFFFFF;
+  font-size: 15px;
+}

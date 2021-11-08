@@ -1,0 +1,17 @@
+body {
+  overflow-x: hidden;
+}
+
+img {
+  height: 800px;
+  width: 100%;
+  opacity: 0.7;
+}
+
+.saying {
+  position: absolute;
+  text-align: center;
+	top: 50%;
+	left: 50%;
+	transform: translate( -50%, -50% );
+}

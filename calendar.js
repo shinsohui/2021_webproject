@@ -1,240 +1,128 @@
-var currentTitle = document.getElementById('current-year-month');
-var calendarBody = document.getElementById('calendar-body');
-var today = new Date();
-var first = new Date(today.getFullYear(), today.getMonth(), 1);
-var dayList = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-var monthList = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-var leapYear = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-var notLeapYear = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-var pageFirst = first;
-var pageYear;
-var mainTodayDay = document.getElementById('main-day');
-var mainTodayDate = document.getElementById('main-date');
-if (first.getFullYear() % 4 === 0) {
-    pageYear = leapYear;
-} else {
-    pageYear = notLeapYear;
-}
+var today = null;
+var year = null;
+var month = null;
+var firstDay = null;
+var lastDay = null;
+var $tdDay = null;
+var $tdSche = null;
 
-function showCalendar() {
-    let monthCnt = 100;
-    let cnt = 1;
+//전체 set 
+$(document).ready(function () {
+    drawCalendar();
+    initDate();
+    drawDays();
+    drawToday();
+    $("#movePrevMonth").on("click", function () { movePrevMonth(); });
+    $("#moveNextMonth").on("click", function () { moveNextMonth(); });
+});
+
+//calendar 그리기
+function drawCalendar() {
+    var setTableHTML = "";
+    setTableHTML += '<table id = "table" class="calendar">';
+    setTableHTML += '<tr><th>SUN</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr>';
     for (var i = 0; i < 6; i++) {
-        var $tr = document.createElement('tr');
-        $tr.setAttribute('id', monthCnt);
+        //행 6개 만드는 부분
+        setTableHTML += '<tr height="90px">';
         for (var j = 0; j < 7; j++) {
-            if ((i === 0 && j < first.getDay()) || cnt > pageYear[first.getMonth()]) {
-                var $td = document.createElement('td');
-                $tr.appendChild($td);
-            } else {
-                var $td = document.createElement('td');
-                $td.textContent = cnt;
-                $td.setAttribute('id', cnt);
-                $tr.appendChild($td);
-                cnt++;
-            }
+            //열 7개(월 ~ 일)만들면서 날짜 채워나가는 부분 
+            setTableHTML += '<td style="text-overflow:ellipsis;overflow:hidden;white-space:nowrap;">';
+            setTableHTML += '    <div class="cal-day" onclick="viewCalendar_edit($tdDay.contents())"></div>';
+            setTableHTML += '    <div class="cal-schedule"></div>';
+            setTableHTML += '</td>';
         }
-        monthCnt++;
-        calendarBody.appendChild($tr);
+        setTableHTML += '</tr>';
     }
-}
-showCalendar();
-
-function removeCalendar() {
-    let catchTr = 100;
-    for (var i = 100; i < 106; i++) {
-        var $tr = document.getElementById(catchTr);
-        $tr.remove();
-        catchTr++;
-    }
+    setTableHTML += '</table>';
+    $("#cal_tab").html(setTableHTML);
 }
 
-function prev() {
-    inputBox.value = "";
-    const $divs = document.querySelectorAll('#input-list > div');
-    $divs.forEach(function (e) {
-        e.remove();
-    });
-    const $btns = document.querySelectorAll('#input-list > button');
-    $btns.forEach(function (e1) {
-        e1.remove();
-    });
-    if (pageFirst.getMonth() === 1) {
-        pageFirst = new Date(first.getFullYear() - 1, 12, 1);
-        first = pageFirst;
-        if (first.getFullYear() % 4 === 0) {
-            pageYear = leapYear;
-        } else {
-            pageYear = notLeapYear;
-        }
-    } else {
-        pageFirst = new Date(first.getFullYear(), first.getMonth() - 1, 1);
-        first = pageFirst;
-    }
-    today = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
-    currentTitle.innerHTML = monthList[first.getMonth()] + '&nbsp;&nbsp;&nbsp;&nbsp;' + first.getFullYear();
-    removeCalendar();
-    showCalendar();
-    showMain();
-    clickedDate1 = document.getElementById(today.getDate());
-    clickedDate1.classList.add('active');
-    clickStart();
-    reshowingList();
+//날짜 초기화
+function initDate() {
+    $tdDay = $("td div.cal-day")
+    $tdSche = $("td div.cal-schedule")
+    dayCount = 0;
+    today = new Date();
+    year = today.getFullYear();
+    month = today.getMonth() + 1;
+    firstDay = new Date(year, month - 1, 1);
+    lastDay = new Date(year, month, 0);
 }
 
-function next() {
-    inputBox.value = "";
-    const $divs = document.querySelectorAll('#input-list > div');
-    $divs.forEach(function (e) {
-        e.remove();
-    });
-    const $btns = document.querySelectorAll('#input-list > button');
-    $btns.forEach(function (e1) {
-        e1.remove();
-    });
-    if (pageFirst.getMonth() === 12) {
-        pageFirst = new Date(first.getFullYear() + 1, 1, 1);
-        first = pageFirst;
-        if (first.getFullYear() % 4 === 0) {
-            pageYear = leapYear;
-        } else {
-            pageYear = notLeapYear;
-        }
-    } else {
-        pageFirst = new Date(first.getFullYear(), first.getMonth() + 1, 1);
-        first = pageFirst;
-    }
-    today = new Date(today.getFullYear(), today.getMonth() + 1, today.getDate());
-    currentTitle.innerHTML = monthList[first.getMonth()] + '&nbsp;&nbsp;&nbsp;&nbsp;' + first.getFullYear();
-    removeCalendar();
-    showCalendar();
-    showMain();
-    clickedDate1 = document.getElementById(today.getDate());
-    clickedDate1.classList.add('active');
-    clickStart();
-    reshowingList();
+//캘린더 켰을 때 그날의 월, 일을 표시해줌
+//각 td에 저장되어 있는 월, 일 데이터를 가지고 와서 캘린더 에디터를 누르면 상단에 띄우도록 해야함
+function drawToday() {
+    // $("#what_day").text(year);
+    // $("#what_day").append("년 ");
+    // $("#what_day").append(month);
+    // $("#what_day").append("월 ");
+    // $("#what_day").append(today.getDate());
+    // $("#what_day").append("일");
+    //$("#loadDate").text($tdDay);
+
 }
 
-currentTitle.innerHTML = monthList[first.getMonth()] + '&nbsp;&nbsp;&nbsp;&nbsp;' + first.getFullYear();
-function showMain() {
-    mainTodayDay.innerHTML = dayList[today.getDay()];
-    mainTodayDate.innerHTML = today.getDate();
-}
-showMain();
-
-var clickedDate1 = document.getElementById(today.getDate());
-clickedDate1.classList.add('active');
-var prevBtn = document.getElementById('prev');
-var nextBtn = document.getElementById('next');
-prevBtn.addEventListener('click', prev);
-nextBtn.addEventListener('click', next);
-var tdGroup = [];
-function clickStart() {
-    for (let i = 1; i <= pageYear[first.getMonth()]; i++) {
-        tdGroup[i] = document.getElementById(i);
-        tdGroup[i].addEventListener('click', changeToday);
+//calendar 날짜표시
+function drawDays() {
+    $("#cal_top_year").text(year);
+    $("#cal_top_month").text(month);
+    for (var i = firstDay.getDay(); i < firstDay.getDay() + lastDay.getDate(); i++) {
+        $tdDay.eq(i).text(++dayCount);
     }
-}
-function changeToday(e) {
-    for (let i = 1; i <= pageYear[first.getMonth()]; i++) {
-        if (tdGroup[i].classList.contains('active')) {
-            tdGroup[i].classList.remove('active');
-        }
+    for (var i = 0; i < 42; i += 7) {
+        $tdDay.eq(i).css("color", "red");
     }
-    clickedDate1 = e.currentTarget;
-    clickedDate1.classList.add('active');
-    today = new Date(today.getFullYear(), today.getMonth(), clickedDate1.id);
-    showMain();
-    keyValue = today.getFullYear() + '' + today.getMonth() + '' + today.getDate();
-    reshowingList();
-}
-clickStart();
-function reshowingList() {
-    keyValue = today.getFullYear() + '' + today.getMonth() + '' + today.getDate();
-    if (todoList[keyValue] === undefined) {
-        inputList.textContent = '';
-        todoList[keyValue] = [];
-        const $divs = document.querySelectorAll('#input-list > div');
-        $divs.forEach(function (e) {
-            e.remove();
-        });
-        const $btns = document.querySelectorAll('#input-list > button');
-        $btns.forEach(function (e1) {
-            e1.remove();
-        });
-    } else if (todoList[keyValue].length === 0) {
-        inputList.textContent = "";
-        const $divs = document.querySelectorAll('#input-list > div');
-        $divs.forEach(function (e) {
-            e.remove();
-        });
-        const $btns = document.querySelectorAll('#input-list > button');
-        $btns.forEach(function (e1) {
-            e1.remove();
-        });
-    } else {
-        const $divs = document.querySelectorAll('#input-list > div');
-        $divs.forEach(function (e) {
-            e.remove();
-        });
-        const $btns = document.querySelectorAll('#input-list > button');
-        $btns.forEach(function (e1) {
-            e1.remove();
-        });
-        var $div = document.createElement('div');
-        for (var i = 0; i < todoList[keyValue].length; i++) {
-            var $div = document.createElement('div');
-            $div.textContent = '-' + todoList[keyValue][i];
-            var $btn = document.createElement('button');
-            $btn.setAttribute('type', 'button');
-            $btn.setAttribute('id', 'del-ata');
-            $btn.setAttribute('id', dataCnt + keyValue);
-            $btn.setAttribute('class', 'del-data');
-            $btn.textContent = delText;
-            inputList.appendChild($div);
-            inputList.appendChild($btn);
-            $div.addEventListener('click', checkList);
-            $btn.addEventListener('click', deleteTodo);
-            inputBox.value = '';
-            function deleteTodo() {
-                $div.remove();
-                $btn.remove();
-            }
-        }
+    for (var i = 6; i < 42; i += 7) {
+        $tdDay.eq(i).css("color", "blue");
     }
 
 }
-var inputBox = document.getElementById('input-box');
-var inputDate = document.getElementById('input-data');
-var inputList = document.getElementById('input-list');
-var delText = 'X';
-inputDate.addEventListener('click', addTodoList);
-var dataCnt = 1;
-var keyValue = today.getFullYear() + '' + today.getMonth() + '' + today.getDate();
-let todoList = [];
-todoList[keyValue] = [];
-function addTodoList() {
-    var $div = document.createElement('div');
-    $div.textContent = '-' + inputBox.value;
-    var $btn = document.createElement('button');
-    $btn.setAttribute('type', 'button');
-    $btn.setAttribute('id', 'del-ata');
-    $btn.setAttribute('id', dataCnt + keyValue);
-    $btn.setAttribute('class', "del-data");
-    $btn.textContent = delText;
-    inputList.appendChild($div);
-    inputList.appendChild($btn);
-    todoList[keyValue].push(inputBox.value);
-    dataCnt++;
-    inputBox.value = '';
-    $div.addEventListener('click', checkList);
-    $btn.addEventListener('click', deleteTodo);
-    function deleteTodo() {
-        $div.remove();
-        $btn.remove();
+
+// #table > tbody > tr:nth-child(2) > td:nth-child(2) > div.cal-day
+
+//calendar 월 이동
+//이전 월로 이동
+function movePrevMonth() {
+    month--;
+    if (month <= 0) {
+        month = 12;
+        year--;
     }
+    if (month < 10) {
+        month = String("0" + month);
+    }
+    getNewInfo();
 }
-console.log(keyValue);
-function checkList(e) {
-    e.currentTarget.classList.add('checked');
+
+//다음 월로 이동
+function moveNextMonth() {
+    month++;
+    if (month > 12) {
+        month = 1;
+        year++;
+    }
+    if (month < 10) {
+        month = String("0" + month);
+    }
+    getNewInfo();
 }
+
+//새로운 월일 때
+function getNewInfo() {
+    for (var i = 0; i < 42; i++) {
+        $tdDay.eq(i).text("");
+    }
+    dayCount = 0;
+    firstDay = new Date(year, month - 1, 1);
+    lastDay = new Date(year, month, 0);
+    drawDays();
+}
+
+function viewCalendar_edit(str) {
+
+    $("#divToggle").toggle();
+    $("#show_date").text(str);
+};
+
+
+

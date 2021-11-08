@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calendar</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="form.js"></script>
+    <script src="Calendar.js"></script>
+    <link rel="stylesheet" href="navi.css">
+    <link rel="stylesheet" href="form.css">
+    <link rel="stylesheet" href="Calendar.css">
+    <style type="text/css">
+    </style>
+</head>
+
+<body>
+    <form id="form1" runat="server">
+        <div class="wrap">
+            <div class="menubar">
+                <div class="menuLogo">
+                    <a href="#">Logo</a>
+                </div>
+                <ul class="menuItem">
+                    <li><a href="#">Calendar</a></li>
+
+                    <li>
+                        <a href="#">Community</a>
+                        <ul>
+                            <li><a href="#">자유게시판</a></li>
+                            <li><a href="#">공유게시판</a></li>
+                            <li><a href="#">질문게시판</a></li>
+                            <li><a href="#">건의사항</a></li>
+                            <li><a href="#">Before & After</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#">Tip</a>
+                        <ul>
+                            <li><a href="#">공지사항</a></li>
+                            <li><a href="#">팁 & 노하우</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- <li><a href="#">LogOut</a></li> -->
+                </ul>
+
+                <div class="mypage">
+                    <a href="#">Logout</a>
+                </div>
+
+                <div class="logout">
+                    <a href="#">mypage</a>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+
+    <h2 class="date_text" style="text-align: center; padding: 2rem 0">
+        <a href="#" id="movePrevMonth"><span id="prevMonth" class="cal_tit">&lt;</span></a>
+        <span id="cal_top_year"></span>
+        <span id="cal_top_month"></span>
+        <a href="#" id="moveNextMonth"><span id="nextMonth" class="cal_tit">&gt;</span></a>
+    </h2>
+
+    <div class="largest_box" style="padding:10px; border: 1px solid #ffe4e1">
+
+        <div class='first rap' style="border: 1px solid; width: 19%; padding-left:1%"> 친구
+            <br> 문박히
+        </div>
+
+        <div id='cal_tab' class='second rap' style="width: 81%; padding-left: 5px; position: relative;"></div>
+
+        <div id='divToggle' class="divToggle" style="background-color: #000000">
+            <div id='close' onclick="this.parentNode.style.display = 'none';" class="close" style="background-color: blue";></div>
+
+            <!-- 상단에 날짜 표시하는 부분-->
+            <div id = "show_date"></div>
+            
+
+            <!-- 이미지 노출되는 부분 하단에 썸네일 함수 사용함-->
+            <div id="image_container" class="day-photo" style="background-color: cyan;">
+            </div>
+
+            <!-------------------------파일 선택, 수정, 삭제 하는 부분----------------------------->
+            <div class="file-input-icon" style="margin-left: 360px; margin-top: 5px;">
+                <input type="file" id="image" accept="image/*" onchange="setThumbnail(event);" />
+            </div>
+
+            <div class="file-edit-icon">
+                <a href="#" class="preview-edit" >수정</a>
+                <a href="#" class="preview-de" >삭제</a>
+            </div>
+            <!-- ---------------------------------------------------------------------------->
+
+            <form style="padding-top: 20px; padding-left: 20%;" action="write.jsp" method="post">
+                <div style="width: 100px;height: 30px;">
+                    <select name="운동 선택" style="width: 150px;">
+                        <option value="none">= 오늘의 운동은?! =</option>
+                        <option value="런닝">런닝</option>
+                        <option value="웨이트">웨이트</option>
+                        <option value="수영">수영</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="title">운동 내용 기록</label><br>
+                    <input type="text" class="form-control" id="title" placeholder="어떤 운동을 어떻게 했나요?" name="title"
+                        maxlength="1000" required="required" pattern=".{4,100}" style="width: 500px; height: 50px; ">
+                </div>
+
+                <div>
+                    <label for="content">오늘의 운동평</label>
+                    <br>
+                    <input type="text" class="form-control" id="title" placeholder="오늘의 운동은 어땠나요?" name="title" maxlength="1000"
+                        required="required" pattern=".{4,100}" style="width: 500px; height: 50px; ">
+                </div>
+
+                <button type="submit" class="btn btn-default">등록</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        //이미지 썸네일 표시 메소드
+        function setThumbnail(event) {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var img = document.createElement("img");
+                img.setAttribute("src", event.target.result);
+                img.setAttribute('width', '400');
+                img.setAttribute('height', '200');
+                console.log(img.height)
+                document.querySelector("div#image_container").appendChild(img);
+            }; reader.readAsDataURL(event.target.files[0]);
+        }
+
+        //이미지 삭제 
+        $('.file-edit-icon').on('click', '.preview-de', function () {
+            $("div#image_container").empty();
+            $("#image").val("");
+        });
+
+        //이미지 수정
+        $('.file-edit-icon').on('click', '.preview-edit', function () {
+            $("div#image_container").empty();
+            $("#image").click();
+        });
+        
+        
+    </script>
+
+</body>
+</html>

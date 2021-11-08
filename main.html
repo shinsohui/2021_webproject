@@ -1,44 +1,106 @@
-<!-- 로그인 하기 전 초기 페이지-->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="start.css">
-    <script src="https://kit.fontawesome.com/51db22a717.js" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SWIPER -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="navi.css">
+
+  <script defer src="main.js"></script>
+  <title>main</title>
 </head>
+
 <body>
-    <div class="page-container">
-        <div class="login-form-container shadow">
-            <div class="login-form-right-side">
-                <!-- <h1>헬스 사진 넣는 페이지</h1>
-                <p>In computer security, logging in is the process by which an individual gains access to a computer system by identifying and authenticating themselves.</p> -->
-            </div>
-            <div class="login-form-left-side">
-                <div class="login-top-wrap">
-                    <span>woa!</span>
-                    <span class = "span2">work out always!</span>
-  
-                </div>
-                <div class="login-input-container">
-                    <div class="login-input-wrap input-id">
-                        <i class="far fa-envelope"></i>
-                        <input placeholder="Username" type="text">
-                    </div>
-                    <div class="login-input-wrap input-password">
-                        <i class="fas fa-key"></i>
-                        <input placeholder="Password"  type="password">
-                    </div>
-                </div>
-                <div class="login-btn-wrap">
-                    <button class="login-btn">Sign In</button>
-                    <a>You don't have an account?</a> 
-                    <a href="#" >Sign up</a> 
-                </div>
-            </div>
+  <form id="form1" runat="server">
+    <div class="wrap">
+      <div class="menubar">
+        <div class="menuLogo">
+          <a href="main.html">Logo</a>
         </div>
+        <ul class="menuItem">
+          <li><a href="#">Calendar</a></li>
+
+          <li>
+            <a href="#">Community</a>
+            <ul>
+              <li><a href="#">자유게시판</a></li>
+              <li><a href="#">공유게시판</a></li>
+              <li><a href="#">질문게시판</a></li>
+              <li><a href="#">건의사항</a></li>
+              <li><a href="#">Before & After</a></li>
+            </ul>
+          </li>
+
+          <li>
+            <a href="#">Tip</a>
+            <ul>
+              <li><a href="#">공지사항</a></li>
+              <li><a href="#">팁 & 노하우</a></li>
+            </ul>
+          </li>
+
+          <!-- <li><a href="#">LogOut</a></li> -->
+        </ul>
+
+        <div class="mypage">
+          <a href="#">Logout</a>
+        </div>
+
+        <div class="logout">
+          <a href="mypage-info.html">My Page</a>
+        </div>
+      </div>
     </div>
+    <div class="sayings">
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <img src="images/main_1.png" alt="phrase 1" />
+            <div class="saying">
+              Exercise to simulate, not to annihilate. <br>
+              The world wasn't formed in a day, and neither were we. <br>
+              Set small goals and build upon them. <br><br><br>
+
+              운동은 자극을 위한 것이지 몸을 괴롭혀 망하게 하는 것이 아니다. <br>
+              세상이 하루 아침에 이루어 지지 않았듯, 우리 몸도 그렇다. <br>
+              작은 목표부터 세우고, 이를 바탕으로 몸을 만들어라. <br><br>
+              - Lee Haney
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <img src="images/main_2.png" alt="phrase 2" />
+            <div class="saying">
+              Everybody wants to be a bodybuilder<br>
+              but don't nobody want to<br>
+              lift no heavy-ass weight<br><br><br>
+
+              모두가 보디빌더 같은 몸을 원하지만<br>
+              아무도 이 개같이 무거운 무게를 들려고 하지 않아<br><br>
+              - Ronnie Colman
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <img src="images/main_3.png" alt="phrase 3" />
+            <div class="saying">
+              The reason I exercise is for the quality of life I enjoy.<br><br><br>
+              내가 운동하는 이유는 삶의 질을 높여 인생을 즐기기 위함이다. <br><br>
+
+              - Kennus H.Copper
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+
 </body>
+
 </html>
