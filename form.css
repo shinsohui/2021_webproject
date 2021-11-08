@@ -1,0 +1,47 @@
+.select {
+    position: relative;
+}
+
+.select .option-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    max-height: 0;
+}
+
+.select.active .option-list {
+    max-height: none;
+}
+
+#theme {}
+#theme .select {
+    box-shadow: 0 0 2px rgba(0,0,0,0.3);
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+#theme .select:hover {
+    color: #333;
+    transition: all .3s;
+}
+#theme .select .text {
+    font-style: black;
+}
+
+#theme .select .option-list {
+    list-style: none;
+    padding: 0;
+    border-radius: 5px;
+    box-shadow: 0 0 2px rgba(0,0,0,0.3);
+}
+#theme .select .option-list .option {
+    padding: 10px 15px;
+    width: 100px;
+    height: 40px;
+}
+#theme .select .option-list .option:hover {
+    background-color: #f2f2f2;
+}
+
